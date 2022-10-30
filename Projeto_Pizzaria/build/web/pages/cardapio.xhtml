@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      
+      template="/template/modeloSistemaPizza.xhtml">
+    
+    <ui:define name="menu">
+        <ui:include src="/include/menuPrincipalPizza.xhtml"></ui:include>
+    </ui:define>
+    
+    <ui:define name="conteudo">
+        <!-- listagem -->
+        <h:form id="frmCardListagem">
+            <p:dataTable id="tblCardapio" emptyMessage="Nenhum funcionario encontrado" value="#{MBCardapio.intens_car}" var="itens" 
+                     paginator="true" rows="8">
+            
+            <f:facet name="header">
+                Cardápio
+            </f:facet>
+            
+            <p:column headerText="Codigo do Cardapio" sortBy="#{itens.car_cod}" filterBy="#{itens.car_cod}">
+                <h:outputText value="#{itens.car_cod}"/>
+            </p:column>
+            <p:column headerText="Descrição" sortBy="#{itens.car_descricao}" filterBy="#{itens.car_descricao}">
+                <h:outputText value="#{itens.car_descricao}"/>
+            </p:column>
+            <p:column headerText="Tipo" sortBy="#{itens.car_tipo}" filterBy="#{itens.car_tipo}">
+                <h:outputText value="#{itens.car_tipo}"/>
+            </p:column>
+            <p:column headerText="Valor" sortBy="#{itens.car_valor}" filterBy="#{itens.car_valor}">
+                <h:outputText value="#{itens.car_valor}"/>
+            </p:column>
+            
+            <f:facet name="footer">
+                <p:commandButton value="Novo Cardapio" 
+                                 actionListener="#{MBCardapio.prepararNovoCardapio()}"
+                                 oncomplete="PF('dialogCardapioNovo').show();"
+                                 update=":frmCardNovo:plnCardNovo"/>
+            </f:facet>
+          </p:dataTable>
+        </h:form>
+        
+         <p:dialog widgetVar="dialogCardapioNovo" closable="false" 
+                  draggable="false" resizable="false"
+                  modal="true" appendTo="@(body)"
+                  height="350" width="450"
+                  header="Cardapio - Novo ">
+             
+             <h:form id="frmCardNovo">
+                 <h:panelGrid  columns="2" id="plnCardNovo">
+                    <h:outputLabel value="Descricao"/>
+                    <h:inputText maxlength="30" size="30" value="#{MBCardapio.cardapioSalvar.car_descricao}"/>
+                    <h:outputLabel value="Tipo"/>
+                    <h:inputText maxlength="20" size="30" value="#{MBCardapio.cardapioSalvar.car_tipo}"/>    
+                    <h:outputLabel value="Valor"/>
+                    <h:inputText maxlength="20" size="30" value="#{MBCardapio.cardapioSalvar.car_valor}"/>
+                </h:panelGrid>
+                
+                  <h:panelGrid columns="2"> 
+                      <p:commandButton value="Salvar" actionListener="#{MBCardapio.salvarCardapio()}"
+                                     oncomplete="PF('dialogCardapioNovo').hide();" 
+                                     update=":frmCardListagem:tblCardapio  :msgGlobal"/>
+                    
+                    <p:commandButton value="Cancelar" onclick="PF('tblCardapio').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

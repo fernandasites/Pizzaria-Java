@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      
+      template="/template/modeloSistemaPizza.xhtml">
+    
+    <ui:define name="menu">
+        <ui:include src="/include/menuPrincipalPizza.xhtml"></ui:include>
+    </ui:define>
+      
+    <ui:define name="conteudo">
+        <p:dataTable emptyMessage="Nenhum entregador encontrado" 
+                     value="#{MBEntregador.intens_ent}" 
+                     var="item">
+            <p:column headerText="Código Entregador">
+                <h:outputText value="#{item.ent_cod}"/>
+            </p:column>
+            <p:column headerText="Nome">
+                <h:outputText value="#{item.ent_nome}"/>
+            </p:column>
+            <p:column headerText="Status da Entrega">
+                <h:outputText value="#{item.ent_Status}"/>
+            </p:column>
+            <p:column headerText="Data da entrega">
+                <h:outputText value="#{item.ent_data_cad}"/>
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+      
+</ui:composition>

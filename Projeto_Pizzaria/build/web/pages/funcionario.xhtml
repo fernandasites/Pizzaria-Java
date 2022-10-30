@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      
+      template="/template/modeloSistemaPizza.xhtml">
+          
+    
+    <ui:define name="menu">
+        <ui:include src="/include/menuPrincipalPizza.xhtml"></ui:include>
+    </ui:define>
+    
+    <ui:define name="conteudo">
+        <h:form id="frmFunListagem">
+        <p:dataTable id="tblFuncionario" emptyMessage="Nenhum funcionario encontrado" value="#{MBFuncionario.itens_fun}" var="itens"
+                     paginator="true" rows="8"> 
+            
+            <f:facet name="header">
+                Lista de Funcionários
+            </f:facet>
+            
+            <p:column headerText="Codigo do Funcionário" sortBy="#{itens.fun_cod}" filterBy="#{itens.fun_cod}">
+                <h:outputText value="#{itens.fun_cod}"/> 
+            </p:column>
+            <p:column headerText="Nome" sortBy="#{itens.fun_nome}" filterBy="#{itens.fun_nome}">
+                <h:outputText value="#{itens.fun_nome}"/>
+            </p:column>
+            <p:column headerText="Cargo" sortBy="#{itens.fun_cargo}" filterBy="#{itens.fun_cargo}">
+                <h:outputText value="#{itens.fun_cargo}"/>
+            </p:column>
+            <p:column headerText="Data" sortBy="#{itens.fun_data_cad}" filterBy="#{itens.fun_data_cad}">
+                <h:outputText value="#{itens.fun_data_cad}"/>
+            </p:column>
+            
+            <f:facet name="footer">
+                <p:commandButton value="Cadastro de Funcionários" 
+                                 actionListener="#{MBFuncionario.prepararNovoFuncionario()}" 
+                                 oncomplete="PF('dialogFuncionarioNovo').show();"
+                                 update=":frmFunNovo:pnlFunNovo"/>
+            </f:facet>
+          </p:dataTable>
+        </h:form>
+            
+        <p:dialog widgetVar="dialogFuncionarioNovo" closable="false" 
+                  draggable="false" resizable="false"
+                  modal="true" appendTo="@(body)"
+                  height="250" width="450"
+                  header="Cadastrar Novo Funcionário ">
+            <h:form id="frmFunNovo">
+                    
+                <h:panelGrid id="pnlFunNovo" columns="2">
+                        
+                    <h:outputLabel value="Nome: " />
+                    <h:inputText maxlength="30" size="30" value="#{MBFuncionario.funcionarioSalvar.fun_nome}"/>
+
+                    <h:outputLabel value="Cargo" />
+                    <h:inputText maxlength="30" size="30" value="#{MBFuncionario.funcionarioSalvar.fun_cargo}"/>
+
+                    <h:outputLabel value="Data: " />
+                    <p:calendar value="#{MBFuncionario.funcionarioSalvar.fun_data_cad}"/>
+                    
+                </h:panelGrid>
+                
+                <h:panelGrid  columns="2">
+                    <p:commandButton value="Salvar" actionListener="#{MBFuncionario.salvarFuncionario()}"
+                                     oncomplete="PF('dialogFuncionarioNovo').hide();"
+                                     update=":frmFunListagem:tblFuncionario  :msgGlobal"/>
+                    
+                    <p:commandButton value="Cancelar" onclick="PF('dialogFuncionarioNovo').hide();"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+            
+      
+    </ui:define>
+</ui:composition>

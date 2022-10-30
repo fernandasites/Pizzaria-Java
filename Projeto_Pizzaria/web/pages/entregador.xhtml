@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      
+      template="/template/modeloSistemaPizza.xhtml">
+    
+    <ui:define name="menu">
+        <ui:include src="/include/menuPrincipalPizza.xhtml"></ui:include>
+    </ui:define>
+      
+    <ui:define name="conteudo">
+        <h:form id="frmEntListagem"> 
+        <p:dataTable id="tblentregador" emptyMessage="Nenhum entregador encontrado" value="#{MBEntregador.itens_e}" var="item"
+                     paginator="true" rows="8">
+            
+            <f:facet name="header">
+                Lista de Entregadores
+            </f:facet>
+            
+            <p:column headerText="Código Entregador" sortBy="#{item.ent_cod}" filterBy="#{item.ent_cod}">
+                <h:outputText value="#{item.ent_cod}"/>
+            </p:column>
+            <p:column headerText="Nome" sortBy="#{item.ent_nome}" filterBy="#{item.ent_nome}">
+                <h:outputText value="#{item.ent_nome}"/>
+            </p:column>
+            <p:column headerText="Status da Entrega" sortBy="#{item.ent_status}" filterBy="#{item.ent_status}">
+                <h:outputText value="#{item.ent_status}"/>
+            </p:column>
+            <p:column headerText="Data da entrega" sortBy="#{item.ent_data_cad}" filterBy="#{item.ent_data_cad}">
+                <h:outputText value="#{item.ent_data_cad}"/>
+            </p:column>
+            
+            <f:facet name="footer">
+                <p:commandButton value="Cadastro de Entregadores" actionListener="#{MBEntregador.prepararNovoEntregador()}" 
+                                 oncomplete="PF('dialogEntregadorNovo').show();"
+                                 update=":frmEntNovo:pnlEntNovo"/>
+            </f:facet>
+        </p:dataTable>
+        </h:form>
+         <p:dialog widgetVar="dialogEntregadorNovo" closable="false" 
+                  draggable="false" resizable="false"
+                  modal="true" appendTo="@(body)"
+                  header="Entregador - Novo ">
+             
+             <h:form id="frmEntNovo">
+                 <h:panelGrid id="pnlEntNovo" columns="2">
+                     
+                    <h:outputLabel value="Nome"/>
+                    <h:inputText maxlength="21" size="21" value="#{MBEntregador.entSalvar.ent_nome}"/>
+                    
+                    <h:outputLabel  value="Status"/>
+                    <h:inputText maxlength="20" size="20" value="#{MBEntregador.entSalvar.ent_status}"/>
+                    
+                    <h:outputLabel value="Data: " />
+                    <p:calendar value="#{MBEntregador.entSalvar.ent_data_cad}"/>
+                    
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Salvar" actionListener="#{MBEntregador.salvarEntregador()}"
+                                     oncomplete="PF('dialogEntregadorNovo').hide();"
+                                     update=":frmEntListagem:tblentregador :msgGlobal"  />
+                        
+                    <p:commandButton value="Cancelar" onclick="PF('dialogEntregadorNovo').hide();"/>
+                </h:panelGrid>
+                
+                </h:panelGrid>
+                
+            </h:form>
+        </p:dialog>
+        
+    </ui:define>
+      
+</ui:composition>

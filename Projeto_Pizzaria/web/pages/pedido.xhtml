@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      
+      template="/template/modeloSistemaPizza.xhtml">
+    
+    <ui:define name="menu">
+        <ui:include src="/include/menuPrincipalPizza.xhtml"></ui:include>
+    </ui:define>
+    
+    <ui:define name="conteudo">
+      <h:form>
+        <p:dataTable emptyMessage="Nenhum funcionario encontrado" value="#{MBPedido.intens_car}" 
+                     var="itens" paginator="true" rows="8">
+            
+            <f:facet name="header">
+                Pedidos
+            </f:facet>
+            <p:column headerText="Codigo do Pedido" sortBy="#{itens}" filterBy="#{itens}">
+                <h:outputText value="#{itens}"/>
+            </p:column>
+            <p:column headerText="Descrição" sortBy="#{itens}" filterBy="#{itens}">
+                <h:outputText value="#{itens}"/>
+            </p:column>
+            <p:column headerText="Tipo" sortBy="#{itens}" filterBy="#{itens}">
+                <h:outputText value="#{itens}"/>
+            </p:column>
+            <p:column headerText="Valor" sortBy="#{itens}" filterBy="#{itens}">
+                <h:outputText value="#{itens}"/>
+            </p:column>
+            
+            <f:facet name="footer">
+                <p:commandButton value="Novo Pedido" />
+            </f:facet>
+        </p:dataTable>
+        </h:form>
+        
+        <p:dialog widgetVar="dialogPedidoNovo" closable="false" draggable="false" resizable="false"
+                  modal="true" appendTo="@(bory)" header="Novo Pedido">
+            <h:form>
+                <h:panelGrid columns="2">
+                    
+                </h:panelGrid>
+                
+                <h:panelGrid columns="2">
+                    
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:define>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      
+      template="/template/modeloSistemaPizza.xhtml">
+    
+    <ui:define name="menu">
+        <ui:include src="/include/menuPrincipalPizza.xhtml"></ui:include>
+    </ui:define>
+    
+    <ui:define name="conteudo">
+        <!-- recebe os dados para filtrar -->
+        <h:form id="frmCliListagem">
+            <p:dataTable id="tblCliente" emptyMessage="Nenhum cliente encontrado" value="#{MBCliente.itensc}" 
+                         var="itens" paginator="true" rows="10">
+
+                <f:facet name="header">
+                    Lista de Clientes
+                </f:facet>
+                <!-- Lista Clientes -->
+                    <p:column headerText="Codigo do Cliente" sortBy="#{itens.cli_codigo}" filterBy="#{itens.cli_codigo}">
+                        <h:outputText value="#{itens.cli_codigo}"/>
+                    </p:column>
+                    <p:column headerText="Nome" sortBy="#{itens.cli_nome}" filterBy="#{itens.cli_nome}">
+                        <h:outputText value="#{itens.cli_nome}"/>
+                    </p:column>
+                <p:column headerText="Rua" sortBy="#{itens.cli_rua}" filterBy="#{itens.cli_rua}">
+                        <h:outputText value="#{itens.cli_rua}" />
+                    </p:column>
+                    <p:column headerText="Bairro" sortBy="#{itens.cli_bairro}" filterBy="#{itens.cli_bairro}">
+                        <h:outputText value="#{itens.cli_bairro}"/>
+                    </p:column>
+                    <p:column headerText="Telefone" sortBy="#{itens.cli_telefone}" filterBy="#{itens.cli_telefone}">
+                        <h:outputText value="#{itens.cli_telefone}"/>
+                    </p:column>
+                    <p:column headerText="Data" sortBy="#{itens.cli_data_cad}" filterBy="#{itens.cli_data_cad}">
+                        <h:outputText value="#{itens.cli_data_cad}"/>
+                    </p:column> 
+                
+                <f:facet name="footer">
+                    <p:commandButton value="Novo Cliente"  
+                                     actionListener="#{MBCliente.prepararNovoCliente()}" 
+                                     oncomplete="PF('dialogClienteNovo').show();"
+                                     update=":frmCliNovo:plnCliNovo"/>
+                </f:facet>
+               
+            </p:dataTable>
+        </h:form>
+        <!-- insere dados-->
+        <p:dialog widgetVar="dialogClienteNovo" closable="false" 
+                  draggable="true" resizable="false" 
+                  modal="true" appendTo="@(body)"
+                  header="Cadastrar - Novo Cliente">
+            
+            <h:form id="frmCliNovo">
+                <h:panelGrid id="plnCliNovo" columns="2">
+                    <h:outputLabel value="Nome: "/>
+                    <h:inputText maxlength="30" size="30" value="#{MBCliente.clienteSalvar.cli_nome}"/>
+
+                    <h:outputLabel value="Rua: " />
+                    <h:inputText maxlength="40" size="30" value="#{MBCliente.clienteSalvar.cli_rua}"/>
+
+                   
+                    <h:outputLabel value="Bairro: " />
+                    <h:inputText maxlength="30" size="30" value="#{MBCliente.clienteSalvar.cli_bairro}"/>
+
+                    <h:outputLabel value="Telefone: " />
+                    <h:inputText maxlength="30" size="30" value="#{MBCliente.clienteSalvar.cli_telefone}"/>
+
+                    <h:outputLabel value="Data: " />
+                    <p:calendar value="#{MBCliente.clienteSalvar.cli_data_cad}"/>
+                   
+                </h:panelGrid>
+                    
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Salvar" actionListener="#{MBCliente.salvarCliente()}"
+                                     oncomplete="PF('dialogClienteNovo').hide();" 
+                                     update=":frmCliListagem:tblCliente  :msgGlobal"/>
+                    
+                    <p:commandButton value="Cancelar" onclick="PF('dialogClienteNovo').hide();"/>
+                </h:panelGrid>
+                
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>
